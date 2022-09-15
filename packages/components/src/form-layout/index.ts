@@ -6,13 +6,12 @@ import {
   Ref,
   ref,
   watch,
-} from '@vue/composition-api'
+} from 'vue-demi'
 import { h } from '@formily/vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { useResponsiveFormLayout } from './useResponsiveFormLayout'
 
 export type FormLayoutProps = {
-  className?: string
   colon?: boolean
   labelAlign?: 'right' | 'left' | ('right' | 'left')[]
   wrapperAlign?: 'right' | 'left' | ('right' | 'left')[]
@@ -80,7 +79,6 @@ export const useFormLayout = (): Ref<FormLayoutProps> => {
 export const FormLayout = defineComponent<FormLayoutProps>({
   name: 'FFormLayout',
   props: {
-    className: {},
     colon: { default: true },
     labelAlign: {},
     wrapperAlign: {},
@@ -141,7 +139,6 @@ export const FormLayout = defineComponent<FormLayoutProps>({
         [`${formPrefixCls}-rtl`]: props.value.direction === 'rtl',
         [`${formPrefixCls}-${props.value.size}`]:
           props.value.size !== undefined,
-        [`${props.value.className}`]: props.value.className !== undefined,
       }
       return h(
         'div',

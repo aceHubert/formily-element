@@ -4,7 +4,7 @@ import {
   ref,
   Ref,
   shallowRef,
-} from '@vue/composition-api'
+} from 'vue-demi'
 import { observe } from '@formily/reactive'
 import {
   GeneralField,

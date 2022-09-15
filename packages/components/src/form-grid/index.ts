@@ -3,11 +3,13 @@ import {
   provide,
   ref,
   onMounted,
-  InjectionKey,
-  Ref,
+  inject,
   computed,
   watchEffect,
-} from '@vue/composition-api'
+  Ref,
+  InjectionKey,
+  PropType,
+} from 'vue-demi'
 import { h } from '@formily/vue'
 import { observer } from '@formily/reactive-vue'
 import { markRaw } from '@formily/reactive'
@@ -15,13 +17,10 @@ import { Grid, IGridOptions } from '@formily/grid'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { useFormLayout } from '../form-layout'
-import { inject } from '@vue/composition-api'
-import { PropType } from '@vue/composition-api'
 
 export interface IFormGridProps extends IGridOptions {
   grid?: Grid<HTMLElement>
   prefixCls?: string
-  className?: string
 }
 
 const FormGridSymbol: InjectionKey<Ref<Grid<HTMLElement>>> =

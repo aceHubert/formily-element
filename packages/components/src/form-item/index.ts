@@ -6,7 +6,7 @@ import {
   onBeforeUnmount,
   watch,
   provide,
-} from '@vue/composition-api'
+} from 'vue-demi'
 import { isVoidField } from '@formily/core'
 import { connect, mapProps, h } from '@formily/vue'
 import { useFormLayout, FormLayoutShallowContext } from '../form-layout'
@@ -17,7 +17,6 @@ import { Tooltip } from 'element-ui'
 import ResizeObserver from 'resize-observer-polyfill'
 
 export type FormItemProps = {
-  className?: string
   required?: boolean
   label?: string | Component
   colon?: boolean
@@ -105,7 +104,6 @@ const ICON_MAP = {
 export const FormBaseItem = defineComponent<FormItemProps>({
   name: 'FormItem',
   props: {
-    className: {},
     required: {},
     label: {},
     colon: {},
@@ -472,7 +470,6 @@ export const FormBaseItem = defineComponent<FormItemProps>({
             [`${prefixCls}-control-wrap`]: !!wrapperWrap,
             [`${prefixCls}-bordered-none`]:
               bordered === false || !!inset || !!feedbackIcon,
-            [`${props.className}`]: !!props.className,
           },
           on: {
             '!focus': () => {

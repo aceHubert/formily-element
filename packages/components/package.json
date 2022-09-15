@@ -55,7 +55,5 @@
     "portal-vue": "^2.1.7",
     "vue-slicksort": "^1.2.0"
   },
-  "devDependencies": {
-    "vue": "^2.6.0"
-  }
+  "devDependencies": {}
 }
