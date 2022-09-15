@@ -49,7 +49,7 @@ const ViewPanelComponent = defineComponent({
 
       if (workbenchRef.value.type === 'DESIGNABLE') {
         return (
-          <Viewport props={{ dragTipsDirection: props.dragTipsDirection }}>
+          <Viewport dragTipsDirection={props.dragTipsDirection}>
             {render()}
           </Viewport>
         )

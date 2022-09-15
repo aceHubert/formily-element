@@ -1,6 +1,7 @@
 import { usePrefix } from '../../hooks'
 import cls from 'classnames'
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent } from 'vue-demi'
+
 export enum ResizeHandleType {
   Resize = 'RESIZE',
   ResizeWidth = 'RESIZE_WIDTH',
@@ -13,7 +14,7 @@ export interface IResizeHandleProps {
 
 export const ResizeHandle = defineComponent({
   props: ['type'],
-  setup(props, { slots, attrs }) {
+  setup(props: IResizeHandleProps, { slots, attrs }) {
     const prefixRef = usePrefix('resize-handle')
     return () => {
       return (

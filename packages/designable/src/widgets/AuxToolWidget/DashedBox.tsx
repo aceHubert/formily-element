@@ -71,10 +71,12 @@ export const DashedBox = composeExport(
   observer(
     defineComponent({
       setup() {
-        const hoverRef = useHover()
+        // const hoverRef = useHover()
         return () => {
           return (
-            <Fragment key={hoverRef.value?.node?.id}>
+            <Fragment
+            // key={hoverRef.value?.node?.id}
+            >
               <DashBox></DashBox>
             </Fragment>
           )

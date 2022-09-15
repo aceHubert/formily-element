@@ -7,7 +7,10 @@ export const ViewportPanel = defineComponent({
   setup(props, { attrs, slots }) {
     return () => {
       return (
-        <WorkspacePanel.Item attrs={attrs} props={{ flexable: true }}>
+        <WorkspacePanel.Item
+          // attrs={attrs}
+          flexable={true}
+        >
           <Simulator> {slots.default?.()} </Simulator>
         </WorkspacePanel.Item>
       )

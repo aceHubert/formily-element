@@ -13,7 +13,7 @@ const EmptyWidgetComponent = defineComponent({
   props: {
     dragTipsDirection: { type: String, default: 'left' },
   },
-  setup(props, { slots }) {
+  setup(props: IEmptyWidgetProps, { slots }) {
     const treeRef = useTree()
     const prefixRef = usePrefix('empty')
 
@@ -23,15 +23,14 @@ const EmptyWidgetComponent = defineComponent({
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div class="animations">
               <IconWidget
-                props={{
-                  infer:
-                    props.dragTipsDirection === 'left'
-                      ? 'DragLeftSourceAnimation'
-                      : 'DragRightSourceAnimation',
-                  size: 240,
-                }}
+                infer={
+                  props.dragTipsDirection === 'left'
+                    ? 'DragLeftSourceAnimation'
+                    : 'DragRightSourceAnimation'
+                }
+                size={240}
               />
-              <IconWidget props={{ infer: 'BatchDragAnimation', size: 240 }} />
+              <IconWidget infer="BatchDragAnimation" size={240} />
             </div>
             <div class="hotkeys-list">
               <div>

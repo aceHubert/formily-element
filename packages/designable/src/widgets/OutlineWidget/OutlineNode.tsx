@@ -20,22 +20,18 @@ import { NodeTitleWidget } from '../NodeTitleWidget'
 import { NodeSymbol } from './context'
 import cls from 'classnames'
 import './styles.less'
-
-import { useContext, useStyle } from '@formily/element-designable'
-
-import { CSSProperties } from '@vue/runtime-dom'
+import { useStyle } from '../../shared'
+import { useContext } from '../../context'
 import { defineComponent, onBeforeUnmount, onMounted, ref } from 'vue-demi'
 
 export interface IOutlineTreeNodeProps {
   node: TreeNode
-  style?: CSSProperties
-  className?: string
   workspaceId?: string
 }
 
 export const OutlineTreeNode = observer(
   defineComponent({
-    props: ['workspaceId', 'node', 'className'],
+    props: ['workspaceId', 'node'],
     setup(props, { refs }) {
       const style = useStyle()
 
@@ -146,7 +142,7 @@ export const OutlineTreeNode = observer(
           <div
             style={style}
             ref="ref"
-            class={cls(prefix.value, props.className, 'expanded')}
+            class={cls(prefix.value, 'expanded')}
             data-designer-outline-node-id={node.id}
           >
             <div class={prefix.value + '-header'}>
@@ -185,14 +181,13 @@ export const OutlineTreeNode = observer(
                   {renderActions(node)}
                   {node !== node.root && (
                     <IconWidget
-                      key={node.hidden ? 'EyeClose' : 'Eye'}
+                      // key={node.hidden ? 'EyeClose' : 'Eye'}
+                      // @ts-ignore
                       class={cls(prefix.value + '-hidden-icon', {
                         hidden: node.hidden,
                       })}
-                      props={{
-                        infer: node.hidden ? 'EyeClose' : 'Eye',
-                        size: 14,
-                      }}
+                      infer={node.hidden ? 'EyeClose' : 'Eye'}
+                      size={14}
                       onClick={() => {
                         node.hidden = !node.hidden
                       }}
@@ -205,8 +200,8 @@ export const OutlineTreeNode = observer(
               {node.children?.map((child) => {
                 return (
                   <OutlineTreeNode
+                    // key={child.id}
                     node={child}
-                    key={child.id}
                     workspaceId={props.workspaceId}
                   />
                 )

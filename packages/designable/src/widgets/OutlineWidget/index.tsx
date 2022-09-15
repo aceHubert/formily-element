@@ -7,7 +7,7 @@ import { Insertion } from './Insertion'
 import { Viewport } from '@designable/core'
 import { NodeSymbol } from './context'
 import { defineComponent, onMounted, provide, ref, unref } from 'vue-demi'
-import { useStyle } from '@formily/element-designable'
+import { useStyle } from '../../shared'
 
 // export interface IOutlineTreeWidgetProps {
 //   className?: string

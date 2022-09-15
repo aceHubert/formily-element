@@ -1,7 +1,6 @@
 import { isStr } from '@designable/shared'
 import { getCurrentInstance } from 'vue-demi'
 import { VNode } from 'vue/types/umd'
-import { CSSProperties } from '@vue/runtime-dom'
 
 /**
  * 复制一个现有VNode对象
@@ -26,7 +25,7 @@ const css2obj = (css) => {
  * 获取组件外层绑定的style对象
  * @returns
  */
-export function useStyle(): CSSProperties {
+export function useStyle() {
   let {
     vnode: {
       data: { style },
@@ -38,7 +37,7 @@ export function useStyle(): CSSProperties {
   if (Array.isArray(style)) {
     style = Object.assign({}, ...style)
   }
-  return style as CSSProperties
+  return style as Record<string, any>
 }
 
 const isObj = (val: unknown): val is any => typeof val === 'object'

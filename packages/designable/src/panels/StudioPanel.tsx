@@ -1,13 +1,10 @@
 import { usePrefix } from '../hooks'
 import { Layout } from '../containers'
 import cls from 'classnames'
-import { StyleValue } from '@vue/runtime-dom'
 import { defineComponent, unref } from 'vue-demi'
 import { VNode } from 'vue/types/umd'
 
 export interface IStudioPanelProps {
-  style?: StyleValue
-  className?: string
   logo?: VNode | Vue.FunctionalComponentOptions
   actions?: VNode | Vue.FunctionalComponentOptions
   prefixCls?: string
@@ -38,14 +35,14 @@ const StudioPanelInternal = defineComponent({
     }
 
     return () => (
-      <div attrs={attrs} class={cls(prefixRef.value, 'root')}>
+      <div {...{ attrs }} class={cls(prefixRef.value, 'root')}>
         {slots.default?.()}
       </div>
     )
   },
 })
 
-export const StudioPanel = defineComponent({
+export const StudioPanel = defineComponent<IStudioPanelProps>({
   props: {
     theme: { type: String, default: 'light' },
     prefixCls: { type: String, default: 'dn-' },
@@ -56,10 +53,8 @@ export const StudioPanel = defineComponent({
       actions: slots.actions,
     }
     return () => (
-      <Layout
-        {...{ props: { theme: props.theme, prefixCls: props.prefixCls } }}
-      >
-        <StudioPanelInternal {...{ props }} scopedSlots={scopedSlots}>
+      <Layout theme={props.theme} prefixCls={props.prefixCls}>
+        <StudioPanelInternal {...{ props, scopedSlots }}>
           {slots.default?.()}
         </StudioPanelInternal>
       </Layout>

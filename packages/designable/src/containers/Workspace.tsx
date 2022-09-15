@@ -1,18 +1,15 @@
 import { useDesigner } from '../hooks'
 import { WorkspaceSymbol } from '../context'
 import { defineComponent, provide, ref, unref, computed } from 'vue-demi'
-import {
-  FragmentComponent,
-  h as CreateElment,
-  VueComponent,
-} from '@formily/vue'
+import { FragmentComponent, h as CreateElment } from '@formily/vue'
+
 export interface IWorkspaceProps {
   id?: string
   title?: string
   description?: string
 }
 
-export const Workspace: VueComponent<IWorkspaceProps> = defineComponent({
+export const Workspace = defineComponent<IWorkspaceProps>({
   props: {
     id: String,
     title: String,

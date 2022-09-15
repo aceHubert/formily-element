@@ -1,17 +1,13 @@
-import { defineComponent, provide, ref } from '@vue/composition-api'
+import { defineComponent, provide, ref } from 'vue-demi'
 import { IDesignerLayoutProps } from '../types'
-import {
-  FragmentComponent as Fragment,
-  VueComponent,
-  h as CreateElement,
-} from '@formily/vue'
+import { FragmentComponent as Fragment, h as CreateElement } from '@formily/vue'
 import {
   DesignerLayoutSymbol,
   IDesignerLayoutContext,
   useContext,
 } from '../context'
 
-export const Layout: VueComponent<IDesignerLayoutProps> = defineComponent({
+export const Layout = defineComponent({
   props: {
     theme: { type: String, default: 'light' },
     prefixCls: { type: String, default: 'dn-' },

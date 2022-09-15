@@ -3,6 +3,7 @@ import { usePrefix } from '../../hooks'
 import cls from 'classnames'
 import './styles.less'
 import { defineComponent } from 'vue-demi'
+
 // export interface IMobileSimulatorProps
 //   extends React.HTMLAttributes<HTMLDivElement> {
 //   className?: string
@@ -10,14 +11,12 @@ import { defineComponent } from 'vue-demi'
 // }
 
 export const MobileSimulator = defineComponent({
-  props: {
-    className: {},
-  },
+  props: [],
   setup(props, { attrs, slots }) {
     const prefixRef = usePrefix('mobile-simulator')
     return () => {
       return (
-        <div attrs={attrs} class={cls(prefixRef.value, props.className)}>
+        <div attrs={attrs} class={cls(prefixRef.value)}>
           <div class={prefixRef.value + '-content'}>
             <MobileBody>{slots.default?.()}</MobileBody>
           </div>

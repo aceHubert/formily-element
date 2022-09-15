@@ -4,19 +4,16 @@ import { useTreeNode, useNodeIdProps } from '../../hooks'
 import { NodeTitleWidget } from '../NodeTitleWidget'
 import { NodeActionsWidget } from '../NodeActionsWidget'
 import './styles.less'
-import { CSSProperties } from '@vue/runtime-dom'
 import { defineComponent } from 'vue-demi'
 
 export interface IDroppableWidgetProps {
   node?: TreeNode
   actions?: Record<string, any>[]
   height?: number
-  style?: CSSProperties
-  className?: string
 }
 
 export const DroppableWidget = observer(
-  defineComponent({
+  defineComponent<IDroppableWidgetProps>({
     name: 'DnDroppableWidget',
     props: ['node', 'actions', 'height'],
     setup(props, { slots }) {
@@ -41,7 +38,10 @@ export const DroppableWidget = observer(
             {props.actions?.length ? (
               <NodeActionsWidget>
                 {props.actions.map((action, key) => (
-                  <NodeActionsWidget.Action props={{ ...action }} key={key} />
+                  <NodeActionsWidget.Action
+                    {...{ props: action }}
+                    // key={key}
+                  />
                 ))}
               </NodeActionsWidget>
             ) : null}

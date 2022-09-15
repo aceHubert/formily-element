@@ -1,10 +1,9 @@
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent } from 'vue-demi'
 import { usePrefix } from '../hooks'
 import { useStyle } from '../shared/util'
 import { composeExport } from '@formily/element/esm/__builtins__'
 
 export interface IWorkspaceItemProps {
-  style?: any
   flexable?: boolean
 }
 
@@ -26,7 +25,7 @@ const WorkspacePanelComponent = defineComponent({
 const WorkspacePanelItem = defineComponent({
   name: 'DnWorkspacePanelItem',
   props: ['flexable'],
-  setup(props, { slots }) {
+  setup(props: IWorkspaceItemProps, { slots }) {
     const prefix = usePrefix('workspace-panel-item')
     return () => {
       const style = useStyle()

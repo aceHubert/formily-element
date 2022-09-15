@@ -9,17 +9,22 @@ import {
   onMounted,
   ref,
   computed,
+  VNode,
 } from 'vue-demi'
 import { useStyle } from '../shared/util'
+
+export interface IViewportProps {
+  placeholder: VNode
+  dragTipsDirection?: 'left' | 'right'
+}
 
 export const Viewport = defineComponent({
   name: 'DnViewport',
   props: {
-    className: {},
     placeholder: {},
     dragTipsDirection: {},
   },
-  setup(props, { slots, attrs, refs }) {
+  setup(props: IViewportProps, { slots, attrs, refs }) {
     const loaded = ref(false)
     const prefixRef = usePrefix('viewport')
     const viewportHookRef = useViewport()
@@ -70,7 +75,7 @@ export const Viewport = defineComponent({
         <div
           attrs={attrs}
           ref="viewportref"
-          class={cls(prefixRef.value, props.className)}
+          class={cls(prefixRef.value)}
           style={{
             opacity: !loaded ? 0 : 1,
             overflow: isFrameRef.value ? 'hidden' : 'overlay',
@@ -79,7 +84,7 @@ export const Viewport = defineComponent({
         >
           {slots.default?.()}
           <AuxToolWidget />
-          <EmptyWidget props={{ dragTipsDirection: props.dragTipsDirection }}>
+          <EmptyWidget dragTipsDirection={props.dragTipsDirection}>
             {props.placeholder}
           </EmptyWidget>
         </div>

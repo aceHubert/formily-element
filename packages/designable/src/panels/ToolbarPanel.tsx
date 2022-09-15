@@ -7,7 +7,7 @@ export const ToolbarPanel = defineComponent({
     const style = useStyle()
     return () => (
       <WorkspacePanel.Item
-        {...{ props }}
+        // @ts-ignore
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -15,6 +15,7 @@ export const ToolbarPanel = defineComponent({
           padding: '0 4px',
           ...style,
         }}
+        {...{ props }}
       >
         {slots.default?.()}
       </WorkspacePanel.Item>

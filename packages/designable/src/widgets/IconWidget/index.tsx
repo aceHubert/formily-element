@@ -15,9 +15,9 @@ import {
   unref,
 } from 'vue-demi'
 import { composeExport } from '@formily/element/esm/__builtins__'
-import { FragmentComponent as Fragment, VueComponent } from '@formily/vue'
+import { FragmentComponent as Fragment } from '@formily/vue'
 import { cloneElement, isVNode, useStyle } from '../../shared/util'
-import { useContext } from '@formily/element-designable'
+import { useContext } from '../../context'
 import cls from 'classnames'
 
 const IconSymbol: InjectionKey<Ref<IconProviderProps>> = Symbol() // createContext<IconProviderProps>(null)
@@ -103,13 +103,11 @@ const __IconWidgetInner = defineComponent({
           } else if (infer.componentOptions?.propsData?.content) {
             // 判断是不是 shadowSVG === IconWidget.ShadowSVG 写死了看看后续怎么修改
             return (
-              <IconWidget.ShadowSVG
-                props={{
-                  content: infer.componentOptions.propsData.content,
-                  height,
-                  width,
-                }}
-              ></IconWidget.ShadowSVG>
+              <ShadowSVG
+                content={infer.componentOptions.propsData.content}
+                height={height}
+                width={width}
+              ></ShadowSVG>
             )
           }
           return infer
@@ -152,12 +150,7 @@ const __IconWidgetInner = defineComponent({
   },
 })
 
-const IconWidgetInner = observer(__IconWidgetInner) as Vue.Component<
-  any,
-  any,
-  any,
-  IIconWidgetProps
->
+const IconWidgetInner = observer(__IconWidgetInner)
 
 const ShadowSVG = defineComponent({
   props: {
@@ -165,7 +158,7 @@ const ShadowSVG = defineComponent({
     height: [Number, String],
     content: String,
   },
-  setup(props, { refs }) {
+  setup(props: IShadowSVGProps, { refs }) {
     const refInstance = ref<HTMLDivElement>(null)
     const width = isNumSize(props.width) ? `${props.width}px` : props.width
     const height = isNumSize(props.height) ? `${props.height}px` : props.height
@@ -190,26 +183,23 @@ const ShadowSVG = defineComponent({
 
     return () => <div ref="ref"></div>
   },
-}) as Vue.Component<any, any, any, IShadowSVGProps>
+})
 
 const Provider = defineComponent({
   props: { tooltip: Boolean },
-  setup(props, { slots }) {
+  setup(props: IconProviderProps, { slots }) {
     provide(
       IconSymbol,
       computed(() => props)
     )
     return () => <Fragment>{slots.default?.()}</Fragment>
   },
-}) as Vue.Component<any, any, any, IconProviderProps>
+})
 
-export const IconWidget: VueComponent<IIconWidgetProps> = composeExport(
-  IconWidgetInner,
-  {
-    ShadowSVG,
-    Provider,
-  }
-)
+export const IconWidget = composeExport(IconWidgetInner, {
+  ShadowSVG,
+  Provider,
+})
 
 // IconWidget.Provider = (props) => {
 //   return (

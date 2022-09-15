@@ -33,7 +33,11 @@ export const NodePathWidget = defineComponent({
             return (
               <BreadcrumbItem key={key}>
                 {key === 0 && (
-                  <IconWidget infer="Position" style={{ marginRight: '3px' }} />
+                  <IconWidget
+                    infer="Position"
+                    // @ts-ignore
+                    style={{ marginRight: '3px' }}
+                  />
                 )}
                 <a
                   href=""
@@ -46,7 +50,7 @@ export const NodePathWidget = defineComponent({
                     selectionRef.value.select(node)
                   }}
                 >
-                  <NodeTitleWidget props={{ node: node }} />
+                  <NodeTitleWidget node={node} />
                 </a>
               </BreadcrumbItem>
             )

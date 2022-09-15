@@ -28,7 +28,7 @@ export interface IViewportState {
 
 const HelpersComponent = defineComponent({
   props: ['node', 'nodeRect'],
-  setup(props, { refs }) {
+  setup(props: IHelpersProps, { refs }) {
     const prefixRef = usePrefix('aux-helpers')
     const designerRef = useDesigner()
     const viewportRef = useViewport()

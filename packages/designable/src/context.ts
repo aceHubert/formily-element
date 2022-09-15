@@ -1,5 +1,5 @@
 import { TreeNode, Engine } from '@designable/core'
-import { InjectionKey, Ref } from '@vue/composition-api'
+import { InjectionKey, Ref } from 'vue-demi'
 import {
   IDesignerLayoutContext,
   IWorkspaceContext,

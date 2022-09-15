@@ -16,4 +16,4 @@ const WrokbenchComponent = defineComponent({
       )
   },
 })
-export const Workbench: Vue.Component = observer(WrokbenchComponent)
+export const Workbench = observer(WrokbenchComponent)

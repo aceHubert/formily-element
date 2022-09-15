@@ -8,15 +8,13 @@ import './styles.less'
 // }
 export const PCSimulator = defineComponent({
   name: 'DnPCSimulator',
-  props: {
-    className: {},
-  },
+  props: [],
   setup(props, { attrs, slots }) {
     const prefix = usePrefix('pc-simulator')
 
     return () => {
       return (
-        <div attrs={attrs} class={cls(prefix.value, props.className)}>
+        <div attrs={attrs} class={cls(prefix.value)}>
           {slots.default?.()}
         </div>
       )

@@ -5,7 +5,6 @@ import { GhostWidget } from '../widgets'
 import { useDesigner } from '../hooks/useDesigner'
 import { Layout } from './Layout'
 import * as icons from '../icons'
-
 import {
   defineComponent,
   onBeforeUnmount,
@@ -14,17 +13,17 @@ import {
   toRef,
   watchEffect,
 } from 'vue-demi'
-import { VueComponent, h as CreateElement } from '@formily/vue'
+import { h as CreateElement } from '@formily/vue'
 
 GlobalRegistry.registerDesignerIcons(icons)
 
-export const Designer: VueComponent<IDesignerProps> = defineComponent({
+export const Designer = defineComponent<IDesignerProps>({
   props: {
     engine: {},
     theme: { type: String, default: 'light' },
     prefixCls: { type: String, default: 'dn-' },
   },
-  setup(props: IDesignerProps, { slots }) {
+  setup(props, { slots }) {
     const engine = useDesigner()
     const refInstance = ref<Engine>(null)
 

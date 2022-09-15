@@ -3,8 +3,8 @@ import { ClosestPosition } from '@designable/core'
 import { observer } from '@formily/reactive-vue'
 import { composeExport } from '@formily/element/esm/__builtins__'
 import { defineComponent } from 'vue-demi'
-import { CSSProperties } from '@vue/runtime-dom'
 import { isNum } from '@designable/shared'
+
 export interface IInsertionProps {
   workspaceId?: string
 }
@@ -59,16 +59,16 @@ export interface IInsertionProps {
 // })
 const InsertionComponent = defineComponent({
   props: ['workspaceId'],
-  setup(props) {
+  setup(props: IInsertionProps) {
     const outlineDragonRef = useOutlineDragon(props.workspaceId)
     const prefixRef = usePrefix('outline-tree-insertion')
     return () => {
       const outlineDragon = outlineDragonRef.value
       const prefix = prefixRef.value
-      const createInsertionStyle = (): CSSProperties => {
+      const createInsertionStyle = () => {
         const closestDirection = outlineDragon.closestDirection
         const closestRect = outlineDragon.closestOffsetRect
-        const baseStyle: CSSProperties = {
+        const baseStyle: Record<string, any> = {
           position: 'absolute',
           transform: 'perspective(1px) translate3d(0,0,0)',
           top: 0,

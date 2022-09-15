@@ -12,11 +12,11 @@ import {
   onMounted,
   ref,
   unref,
+  Ref,
 } from 'vue-demi'
-import { CSSProperties } from '@vue/runtime-dom'
 import { composeExport } from '@formily/element/esm/__builtins__'
 
-const useMouseHover = <T extends { value?: HTMLElement }>(
+const useMouseHover = <T extends Ref<HTMLElement>>(
   refInstance: T,
   enter?: () => void,
   leave?: () => void
@@ -50,13 +50,12 @@ const useMouseHover = <T extends { value?: HTMLElement }>(
 
 export interface ISelectorProps {
   node: TreeNode
-  style?: CSSProperties
 }
 
 const SelectorComponent = observer(
   defineComponent({
     props: ['node'],
-    setup(props, { refs }) {
+    setup(props: ISelectorProps, { refs }) {
       const expand = ref(false)
       const setExpand = (value) => {
         expand.value = value
@@ -109,7 +108,7 @@ const SelectorComponent = observer(
               {parents.slice(0, 4).map((parent) => {
                 return (
                   <Button
-                    key={parent.id}
+                    // key={parent.id}
                     type="primary"
                     vOn:click_prevent_stop={() => {
                       selectionRef.value.select(parent.id)
@@ -122,7 +121,7 @@ const SelectorComponent = observer(
                     <span
                       style={{ transform: 'scale(0.85)', marginLeft: '2px' }}
                     >
-                      <NodeTitleWidget props={{ node: parent }} />
+                      <NodeTitleWidget node={parent} />
                     </span>
                   </Button>
                 )
@@ -142,7 +141,7 @@ const SelectorComponent = observer(
             >
               {renderIcon(node)}
               <span>
-                <NodeTitleWidget props={{ node: node }} />
+                <NodeTitleWidget node={node} />
               </span>
             </Button>
             {expand.value && renderMenu()}

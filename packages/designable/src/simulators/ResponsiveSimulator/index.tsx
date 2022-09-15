@@ -146,9 +146,7 @@ function useScreenModifier(screen, content: HTMLDivElement) {
 }
 
 const ResponsiveSimulatorComponent = defineComponent({
-  props: {
-    className: {},
-  },
+  props: [],
   setup(props, { attrs, slots, refs }) {
     const content = computed<HTMLDivElement>(
       () => refs.content as HTMLDivElement
@@ -168,7 +166,7 @@ const ResponsiveSimulatorComponent = defineComponent({
       return (
         <div
           attrs={attrs}
-          class={cls(prefixRef.value, props.className)}
+          class={cls(prefixRef.value)}
           style={{
             height: '100%',
             width: '100%',
@@ -204,17 +202,26 @@ const ResponsiveSimulatorComponent = defineComponent({
               }}
             >
               {slots.default?.()}
-              <ResizeHandle props={{ type: ResizeHandleType.Resize }}>
+              <ResizeHandle type={ResizeHandleType.Resize}>
                 <IconWidget
                   infer="DragMove"
+                  // @ts-ignore
                   style={{ pointerEvents: 'none' }}
                 />
               </ResizeHandle>
               <ResizeHandle type={ResizeHandleType.ResizeHeight}>
-                <IconWidget infer="Menu" style={{ pointerEvents: 'none' }} />
+                <IconWidget
+                  infer="Menu"
+                  // @ts-ignore
+                  style={{ pointerEvents: 'none' }}
+                />
               </ResizeHandle>
               <ResizeHandle type={ResizeHandleType.ResizeWidth}>
-                <IconWidget infer="Menu" style={{ pointerEvents: 'none' }} />
+                <IconWidget
+                  infer="Menu"
+                  // @ts-ignore
+                  style={{ pointerEvents: 'none' }}
+                />
               </ResizeHandle>
             </div>
           </div>

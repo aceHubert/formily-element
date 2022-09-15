@@ -2,15 +2,15 @@ import { isValid } from '@designable/shared'
 import cls from 'classnames'
 import { IconWidget, TextWidget } from '../widgets'
 import { usePrefix } from '../hooks'
-import { VNode } from 'vue/types/umd'
 import { composeExport } from '@formily/element/esm/__builtins__'
-import { FragmentComponent, VueComponent } from '@formily/vue'
+import { FragmentComponent } from '@formily/vue'
 import {
   defineComponent,
   getCurrentInstance,
   ref,
   unref,
   watch,
+  VNode,
 } from 'vue-demi'
 
 export interface ICompositePanelProps {
@@ -58,164 +58,166 @@ const getDefaultKey = (children: VNode[]) => {
   return items?.[0]?.key
 }
 
-export const CompositePanelComponent: VueComponent<ICompositePanelProps> =
-  defineComponent({
-    props: {
-      activeKey: [Number, String],
-      defaultActiveKey: Number,
-      defaultPinning: Boolean,
-      showNavTitle: Boolean,
-      defaultOpen: { type: Boolean, default: true },
-      direction: String,
-      onChange: Function,
-    },
-    setup(props: ICompositePanelProps) {
-      const { slots } = getCurrentInstance()
-      const prefixRef = usePrefix('composite-panel')
+export const CompositePanelComponent = defineComponent<ICompositePanelProps>({
+  props: {
+    activeKey: [Number, String],
+    defaultActiveKey: Number,
+    defaultPinning: Boolean,
+    showNavTitle: Boolean,
+    defaultOpen: { type: Boolean, default: true },
+    direction: String,
+    onChange: Function,
+  },
+  setup(props) {
+    const { slots } = getCurrentInstance()
+    const prefixRef = usePrefix('composite-panel')
 
-      const activeKey = ref(
-        props.defaultActiveKey ??
-          getDefaultKey(slots.default as unknown as VNode[])
-      )
+    const activeKey = ref(
+      props.defaultActiveKey ??
+        getDefaultKey(slots.default as unknown as VNode[])
+    )
 
-      // 获取所有子组件
-      const items = parseItems(slots.default as unknown as VNode[])
-      const pinning = ref(props.defaultPinning ?? false)
-      const visible = ref(props.defaultOpen ?? true)
+    // 获取所有子组件
+    const items = parseItems(slots.default as unknown as VNode[])
+    const pinning = ref(props.defaultPinning ?? false)
+    const visible = ref(props.defaultOpen ?? true)
 
-      watch(
-        () => props.activeKey,
-        () => {
-          if (isValid(props.activeKey)) {
-            if (props.activeKey !== activeKey.value) {
-              activeKey.value = props.activeKey
-            }
+    watch(
+      () => props.activeKey,
+      () => {
+        if (isValid(props.activeKey)) {
+          if (props.activeKey !== activeKey.value) {
+            activeKey.value = props.activeKey
           }
-        },
-        { immediate: true }
-      )
+        }
+      },
+      { immediate: true }
+    )
 
-      const renderContent = () => {
-        const prefix = unref(prefixRef)
-        const currentItem = findItem(items, unref(activeKey))
-        const content = currentItem?.children // 估计不对
-        if (!unref(visible) || !content) return
+    const renderContent = () => {
+      const prefix = unref(prefixRef)
+      const currentItem = findItem(items, unref(activeKey))
+      const content = currentItem?.children // 估计不对
+      if (!unref(visible) || !content) return
 
-        return (
-          <div
-            class={cls(prefix + '-tabs-content', {
-              pinning: unref(pinning),
-            })}
-          >
-            <div class={prefix + '-tabs-header'}>
-              <div class={prefix + '-tabs-header-title'}>
-                <TextWidget>{currentItem.title}</TextWidget>
+      return (
+        <div
+          class={cls(prefix + '-tabs-content', {
+            pinning: unref(pinning),
+          })}
+        >
+          <div class={prefix + '-tabs-header'}>
+            <div class={prefix + '-tabs-header-title'}>
+              <TextWidget>{currentItem.title}</TextWidget>
+            </div>
+            <div class={prefix + '-tabs-header-actions'}>
+              <div class={prefix + '-tabs-header-extra'}>
+                {currentItem?.extra}
               </div>
-              <div class={prefix + '-tabs-header-actions'}>
-                <div class={prefix + '-tabs-header-extra'}>
-                  {currentItem?.extra}
-                </div>
-                {!pinning.value && (
-                  <IconWidget
-                    key={prefix + '-tabs-header-pin'}
-                    class={prefix + '-tabs-header-pin'}
-                    props={{ infer: 'PushPinOutlined' }}
-                    onClick={() => {
-                      pinning.value = !pinning.value
-                    }}
-                  />
-                )}
-                {pinning.value && (
-                  <IconWidget
-                    key={prefix + '-tabs-header-pin-filled'}
-                    class={prefix + '-tabs-header-pin-filled'}
-                    props={{ infer: 'PushPinFilled' }}
-                    onClick={() => {
-                      pinning.value = !pinning.value
-                    }}
-                  />
-                )}
+              {!pinning.value && (
                 <IconWidget
-                  class={prefix + '-tabs-header-close'}
-                  props={{ infer: 'Close' }}
+                  // key={prefix + '-tabs-header-pin'}
+                  // @ts-ignore
+                  class={prefix + '-tabs-header-pin'}
+                  infer="PushPinOutlined"
                   onClick={() => {
-                    visible.value = false
+                    pinning.value = !pinning.value
                   }}
                 />
-              </div>
+              )}
+              {pinning.value && (
+                <IconWidget
+                  // key={prefix + '-tabs-header-pin-filled'}
+                  // @ts-ignore
+                  class={prefix + '-tabs-header-pin-filled'}
+                  infer="PushPinFilled"
+                  onClick={() => {
+                    pinning.value = !pinning.value
+                  }}
+                />
+              )}
+              <IconWidget
+                // @ts-ignore
+                class={prefix + '-tabs-header-close'}
+                infer="Close"
+                onClick={() => {
+                  visible.value = false
+                }}
+              />
             </div>
-            <div class={prefix + '-tabs-body'}>{content}</div>
           </div>
-        )
-      }
+          <div class={prefix + '-tabs-body'}>{content}</div>
+        </div>
+      )
+    }
 
-      return () => {
-        const prefix = unref(prefixRef)
-        return (
-          <div
-            class={cls(prefix, {
-              [`direction-${props.direction}`]: !!props.direction,
-            })}
-          >
-            <div class={prefix + '-tabs'}>
-              {items.map((item, index) => {
-                const takeTab = () => {
-                  if (item.href) {
-                    return <a href={item.href}>{item.icon}</a>
-                  }
-                  return (
-                    <IconWidget
-                      props={{
-                        tooltip: props.showNavTitle
-                          ? null
-                          : {
-                              content: <TextWidget>{item.title}</TextWidget>,
-                              placement:
-                                props.direction === 'right' ? 'left' : 'right',
-                            },
-                        infer: item.icon,
-                      }}
-                    />
-                  )
+    return () => {
+      const prefix = unref(prefixRef)
+      return (
+        <div
+          class={cls(prefix, {
+            [`direction-${props.direction}`]: !!props.direction,
+          })}
+        >
+          <div class={prefix + '-tabs'}>
+            {items.map((item, index) => {
+              const takeTab = () => {
+                if (item.href) {
+                  return <a href={item.href}>{item.icon}</a>
                 }
-                const shape = item.shape ?? 'tab'
-                const Comp = shape === 'link' ? 'a' : 'div'
                 return (
-                  <Comp
-                    attrs={{ key: index, href: item.href }}
-                    class={cls(prefix + '-tabs-pane', {
-                      active: unref(activeKey) === item.key,
-                    })}
-                    onClick={(e: MouseEvent) => {
-                      if (shape === 'tab') {
-                        if (unref(activeKey) === item.key) {
-                          visible.value = !visible.value
-                        } else {
-                          visible.value = true
-                        }
-                        if (!props?.activeKey || !props?.onChange)
-                          activeKey.value = item.key
-                      }
-                      item.onClick?.(e)
-                      props.onChange?.(item.key as string)
-                    }}
-                  >
-                    {takeTab()}
-                    {props.showNavTitle && item.title ? (
-                      <div class={prefix + '-tabs-pane-title'}>
-                        <TextWidget>{item.title}</TextWidget>
-                      </div>
-                    ) : null}
-                  </Comp>
+                  <IconWidget
+                    tooltip={
+                      props.showNavTitle
+                        ? null
+                        : {
+                            content: <TextWidget>{item.title}</TextWidget>,
+                            placement:
+                              props.direction === 'right' ? 'left' : 'right',
+                          }
+                    }
+                    infer={item.icon}
+                  />
                 )
-              })}
-            </div>
-            {renderContent()}
+              }
+              const shape = item.shape ?? 'tab'
+              const Comp = shape === 'link' ? 'a' : 'div'
+              return (
+                <Comp
+                  attrs={{ key: index, href: item.href }}
+                  class={cls(prefix + '-tabs-pane', {
+                    active: unref(activeKey) === item.key,
+                  })}
+                  onClick={(e: MouseEvent) => {
+                    if (shape === 'tab') {
+                      if (unref(activeKey) === item.key) {
+                        visible.value = !visible.value
+                      } else {
+                        visible.value = true
+                      }
+                      if (!props?.activeKey || !props?.onChange)
+                        activeKey.value = item.key
+                    }
+                    item.onClick?.(e)
+                    props.onChange?.(item.key as string)
+                  }}
+                >
+                  {takeTab()}
+                  {props.showNavTitle && item.title ? (
+                    <div class={prefix + '-tabs-pane-title'}>
+                      <TextWidget>{item.title}</TextWidget>
+                    </div>
+                  ) : null}
+                </Comp>
+              )
+            })}
           </div>
-        )
-      }
-    },
-  })
+          {renderContent()}
+        </div>
+      )
+    }
+  },
+})
 
 /**
  *  shape?: 'tab' | 'button' | 'link'
@@ -235,8 +237,6 @@ const Item = defineComponent({
   },
 })
 
-export const CompositePanel: VueComponent<ICompositePanelProps> & {
-  Item: VueComponent<ICompositePanelItemProps>
-} = composeExport(CompositePanelComponent, {
+export const CompositePanel = composeExport(CompositePanelComponent, {
   Item: composeExport(Item, { type: Item }),
 })

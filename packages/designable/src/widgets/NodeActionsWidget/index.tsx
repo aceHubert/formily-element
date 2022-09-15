@@ -10,21 +10,19 @@ import './styles.less'
 import { composeExport } from '@formily/element/esm/__builtins__'
 import { defineComponent } from 'vue-demi'
 
-// export interface INodeActionsWidgetProps {
-//   activeShown?: boolean
-// }
+import type { VNode } from 'vue-demi'
 
-// export interface INodeActionsWidgetActionProps
-//   extends Omit<React.ComponentProps<'a'>, 'title' | 'type' | 'ref'>,
-//     Partial<TypographyProps['Link']> {
-//   className?: string
-//   style?: React.CSSProperties
-//   title: React.ReactNode
-//   icon?: React.ReactNode
-// }
+export interface INodeActionsWidgetProps {
+  activeShown?: boolean
+}
+
+export interface INodeActionsWidgetActionProps {
+  title: VNode
+  icon?: VNode
+}
 
 const NodeActionsWidgetComponent = observer(
-  defineComponent({
+  defineComponent<INodeActionsWidgetProps>({
     props: ['activeShown'],
     setup(props, { slots }) {
       const nodeRef = useTreeNode()
@@ -39,7 +37,11 @@ const NodeActionsWidgetComponent = observer(
         return (
           <div class={cls(prefixRef.value)}>
             <div class={prefixRef.value + '-content'}>
-              <Space split="|">{slots.default?.()}</Space>
+              <Space
+              // split="|"
+              >
+                {slots.default?.()}
+              </Space>
             </div>
           </div>
         )
@@ -48,15 +50,15 @@ const NodeActionsWidgetComponent = observer(
   })
 )
 
-const ActionComponent = defineComponent({
-  props: ['icon', 'title', 'onClick'],
+const ActionComponent = defineComponent<INodeActionsWidgetActionProps>({
+  props: ['icon', 'title'],
   setup(props, { attrs, emit }) {
     const prefixRef = usePrefix('node-actions-item')
     return () => {
       return (
         <Button
-          type="text"
           attrs={attrs}
+          type="text"
           class={cls(prefixRef.value)}
           data-click-stop-propagation="true"
           onClick={() => {

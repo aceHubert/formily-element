@@ -4,15 +4,14 @@ import { TextWidget, IconWidget } from '../widgets'
 import { usePrefix, useWorkbench } from '../hooks'
 import cls from 'classnames'
 import { defineComponent, ref, watchEffect } from 'vue-demi'
-import { VueComponent } from '@formily/vue'
 
 export interface ISettingPanelProps {
   title?: any
   extra?: any
 }
 
-export const SettingsPanel: VueComponent<ISettingPanelProps> = observer(
-  defineComponent({
+export const SettingsPanel = observer(
+  defineComponent<ISettingPanelProps>({
     props: ['title', 'extra'],
     setup(props, { slots }) {
       const prefixRef = usePrefix('settings-panel')
@@ -64,8 +63,9 @@ export const SettingsPanel: VueComponent<ISettingPanelProps> = observer(
                 </div>
                 {!pinning.value && (
                   <IconWidget
+                    // key={prefixRef.value + '-header-pin'}
                     infer="PushPinOutlined"
-                    key={prefixRef.value + '-header-pin'}
+                    // @ts-ignore
                     class={prefixRef.value + '-header-pin'}
                     onClick={() => {
                       pinning.value = !pinning.value
@@ -74,8 +74,9 @@ export const SettingsPanel: VueComponent<ISettingPanelProps> = observer(
                 )}
                 {pinning.value && (
                   <IconWidget
+                    // key={prefixRef.value + '-pin-filled'}
                     infer="PushPinFilled"
-                    key={prefixRef.value + '-pin-filled'}
+                    // @ts-ignore
                     class={prefixRef.value + '-pin-filled'}
                     onClick={() => {
                       pinning.value = !pinning.value
@@ -83,7 +84,9 @@ export const SettingsPanel: VueComponent<ISettingPanelProps> = observer(
                   />
                 )}
                 <IconWidget
+                  // key={prefixRef.value + '-header-close'}
                   infer="Close"
+                  // @ts-ignore
                   class={prefixRef.value + '-header-close'}
                   onClick={() => {
                     visible.value = false

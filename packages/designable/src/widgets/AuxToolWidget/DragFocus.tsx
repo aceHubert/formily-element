@@ -27,12 +27,9 @@ const DragFocusComponent = observer(
             }}
           >
             <IconWidget
-              props={{
-                infer:
-                  operationRef.value.focusNode === props.node
-                    ? 'Move'
-                    : 'Focus',
-              }}
+              infer={
+                operationRef.value.focusNode === props.node ? 'Move' : 'Focus'
+              }
             />
           </Button>
         )

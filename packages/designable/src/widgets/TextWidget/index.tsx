@@ -2,9 +2,7 @@ import { isStr, isPlainObj } from '@designable/shared'
 import { GlobalRegistry, IDesignerMiniLocales } from '@designable/core'
 import { observer } from '@formily/reactive-vue'
 import { defineComponent } from 'vue-demi'
-import { FragmentComponent, VueComponent } from '@formily/vue'
-
-const Fragment = FragmentComponent as any
+import { FragmentComponent as Fragment } from '@formily/vue'
 
 export interface ITextWidgetProps {
   componentName?: string
@@ -20,7 +18,7 @@ const TextWidgetComponent = defineComponent({
     token: String,
     defaultMessage: String,
   },
-  setup(props, { slots }) {
+  setup(props: ITextWidgetProps, { slots }) {
     const takeLocale = (message: string | IDesignerMiniLocales) => {
       if (isStr(message)) return message
       if (isPlainObj(message)) {
@@ -56,5 +54,4 @@ const TextWidgetComponent = defineComponent({
   },
 })
 
-export const TextWidget: VueComponent<ITextWidgetProps> =
-  observer(TextWidgetComponent)
+export const TextWidget = observer(TextWidgetComponent)

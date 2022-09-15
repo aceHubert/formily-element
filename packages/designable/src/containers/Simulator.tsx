@@ -6,7 +6,6 @@ import {
   PCSimulator,
   ResponsiveSimulator,
 } from '../simulators'
-import {} from '@vue/runtime-dom'
 import { defineComponent } from 'vue-demi'
 
 export type ISimulatorProps = HTMLDivElement & any

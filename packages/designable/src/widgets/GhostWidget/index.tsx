@@ -52,7 +52,7 @@ const GhostWidgetComponent = defineComponent({
               whiteSpace: 'nowrap',
             }}
           >
-            <NodeTitleWidget props={{ node: firstNode }} />
+            <NodeTitleWidget node={firstNode} />
             {draggingNodes.length > 1 ? '...' : ''}
           </span>
         )

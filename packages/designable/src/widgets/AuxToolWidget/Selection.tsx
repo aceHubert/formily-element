@@ -1,4 +1,3 @@
-// import React, { Fragment } from 'react'
 import { FragmentComponent as Fragment } from '@formily/vue'
 import { Helpers } from './Helpers'
 import {
@@ -13,7 +12,6 @@ import { observer } from '@formily/reactive-vue'
 import { TreeNode } from '@designable/core'
 import { defineComponent } from 'vue-demi'
 import { composeExport } from '@formily/element/esm/__builtins__'
-import { CSSProperties } from '@vue/runtime-dom'
 import { isNum } from '@designable/shared'
 export interface ISelectionBoxProps {
   node: TreeNode
@@ -30,7 +28,7 @@ export const SelectionBox = defineComponent({
     return () => {
       const nodeRect = nodeRectRef.value
       const createSelectionStyle = () => {
-        const baseStyle: CSSProperties = {
+        const baseStyle: Record<string, any> = {
           position: 'absolute',
           top: 0,
           left: 0,
@@ -56,9 +54,10 @@ export const SelectionBox = defineComponent({
         <div class={prefixRef.value} style={createSelectionStyle()}>
           {props.showHelpers && (
             <Helpers
-              attrs={attrs}
-              key={JSON.stringify(nodeRect.toJSON())}
-              props={{ node: props.node, nodeRect: nodeRect }}
+              // key={JSON.stringify(nodeRect.toJSON())}
+              // attrs={attrs}
+              node={props.node}
+              nodeRect={nodeRect}
             />
           )}
         </div>
@@ -88,12 +87,9 @@ const SelectionComponent = observer(
               if (node.hidden) return
               return (
                 <SelectionBox
-                  props={{
-                    key: id,
-                    node: node,
-                    showHelpers: selectionRef.value.selected.length === 1,
-                  }}
-                  key={id}
+                  // key={id}
+                  node={node}
+                  showHelpers={selectionRef.value.selected.length === 1}
                 />
               )
             })}

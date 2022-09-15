@@ -73,10 +73,8 @@ const CoverComponent = observer(
           return null
         return (
           <CoverRect
-            props={{
-              dropping: true,
-              node: viewportDragonRef.value.closestNode,
-            }}
+            dropping={true}
+            node={viewportDragonRef.value.closestNode}
           />
         )
       }
@@ -89,8 +87,9 @@ const CoverComponent = observer(
               if (!viewportRef.value.findElementById(node.id)) return
               return (
                 <CoverRect
-                  key={node.id}
-                  props={{ dragging: true, node: node }}
+                  // key={node.id}
+                  dragging={true}
+                  node={node}
                 />
               )
             })}

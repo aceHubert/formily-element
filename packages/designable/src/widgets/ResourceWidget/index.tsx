@@ -12,23 +12,20 @@ import { TextWidget } from '../TextWidget'
 import cls from 'classnames'
 import './styles.less'
 import { defineComponent, ref, unref } from 'vue-demi'
-import { VNode } from 'vue/types/umd'
-import { VueComponent } from '@formily/vue'
+
+import type { VNode } from 'vue-demi'
 
 export interface IResourceWidgetProps {
   title: VNode
   sources?: IResourceLike[]
-  className?: string
   defaultExpand?: boolean
-  children?: VNode[]
 }
 
-export const ResourceWidget: VueComponent<IResourceWidgetProps> = observer(
-  defineComponent({
+export const ResourceWidget = observer(
+  defineComponent<IResourceWidgetProps>({
     props: {
       defaultExpand: { type: Boolean, default: true },
       sources: { type: Array, default: () => [] },
-      className: String,
       title: String,
     },
     setup(props, { slots }) {
@@ -48,9 +45,10 @@ export const ResourceWidget: VueComponent<IResourceWidgetProps> = observer(
             {thumb && <img class={prefix + '-item-thumb'} src={thumb} />}
             {icon && (
               <IconWidget
+                // @ts-ignore
                 class={prefix + '-item-icon'}
-                infer={icon}
                 style={{ width: '150px', height: '40px' }}
+                infer={icon}
               />
             )}
             <span class={prefix + '-item-text'}>
@@ -101,7 +99,11 @@ export const ResourceWidget: VueComponent<IResourceWidgetProps> = observer(
             </div>
             <div class={prefix + '-content-wrapper'}>
               <div class={prefix + '-content'}>
-                {sources.map(isFn(slots.default) ? slots.default : renderNode)}
+                {sources.map(
+                  isFn(slots.default)
+                    ? (slots.default as (source: IResource) => any)
+                    : renderNode
+                )}
                 {remainItems ? (
                   <div
                     class={prefix + '-item-remain'}

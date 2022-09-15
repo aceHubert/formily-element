@@ -2,18 +2,18 @@
 import { useOperation, usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import { Button } from 'element-ui'
+import { TreeNode } from '@designable/core'
 import { defineComponent } from 'vue-demi'
-import { useStyle } from '@formily/element-designable'
+import { useStyle } from '../../shared'
 import { composeExport } from '@formily/element/esm/__builtins__'
 
-// export interface ICopyProps {
-//   node: TreeNode
-//   style?: React.CSSProperties
-// }
+export interface ICopyProps {
+  node: TreeNode
+}
 
 const CopyComponent = defineComponent({
   props: ['node'],
-  setup(props) {
+  setup(props: ICopyProps) {
     const operationRef = useOperation()
     const prefixRef = usePrefix('aux-copy')
     const style = useStyle()

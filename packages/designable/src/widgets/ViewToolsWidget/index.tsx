@@ -4,13 +4,10 @@ import { WorkbenchTypes } from '@designable/core'
 import { IconWidget } from '../IconWidget'
 import { usePrefix, useWorkbench } from '../../hooks'
 import { defineComponent } from 'vue-demi'
-import { CSSProperties } from '@vue/runtime-dom'
 import cls from 'classnames'
 
 export interface IViewToolsWidget {
   use?: WorkbenchTypes[]
-  style?: CSSProperties
-  className?: string
 }
 
 const VireToolsWidgetComponent = defineComponent({
@@ -22,7 +19,7 @@ const VireToolsWidgetComponent = defineComponent({
     const prefixRef = usePrefix('view-tools')
 
     return () => (
-      <ButtonGroup className={cls(prefixRef.value)}>
+      <ButtonGroup class={cls(prefixRef.value)}>
         {props.use.includes('DESIGNABLE') && (
           <Button
             disabled={workbenchRef.value?.type === 'DESIGNABLE'}
