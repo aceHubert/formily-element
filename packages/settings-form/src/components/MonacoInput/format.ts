@@ -1,4 +1,5 @@
 import { parse } from '@babel/parser'
+import { getNpmCDNRegistry } from '../../registry'
 
 interface IPrettierModule {
   default: {
@@ -12,12 +13,17 @@ interface IPrettierModule {
   }
 }
 
-const prettier: Promise<IPrettierModule> = new Function(
-  'return import("https://cdn.jsdelivr.net/npm/prettier@2.3.2/esm/standalone.mjs")'
-)()
+const cache: { prettier: Promise<IPrettierModule> } = {
+  prettier: null,
+}
 
 export const format = async (language: string, source: string) => {
-  return prettier.then((module) => {
+  cache.prettier =
+    cache.prettier ||
+    new Function(
+      `return import("${getNpmCDNRegistry()}/prettier@2.x/esm/standalone.mjs")`
+    )()
+  return cache.prettier.then((module) => {
     if (
       language === 'javascript.expression' ||
       language === 'typescript.expression'

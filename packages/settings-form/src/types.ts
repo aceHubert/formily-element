@@ -1,12 +1,9 @@
 import { Form } from '@formily/core'
 import { VueComponent } from '@formily/vue'
-import { CSSProperties } from '@vue/runtime-dom'
 
 export interface ISettingFormProps {
-  className?: string
-  style?: CSSProperties
   uploadAction?: string
-  components?: Record<string, VueComponent<any>>
+  components?: Record<string, VueComponent>
   effects?: (form: Form) => void
   scope?: any
   headers?: Record<string, string>

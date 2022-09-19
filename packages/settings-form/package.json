@@ -2,8 +2,7 @@
   "name": "@formily/element-settings-form",
   "version": "1.0.0-alpha.0",
   "license": "MIT",
-  "main": "lib",
-  "types": "lib/index.d.ts",
+  "main": "src/index.ts",
   "engines": {
     "npm": ">=3.0.0"
   },
@@ -37,6 +36,7 @@
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-beta.1",
+    "monaco-editor": "^0.33.0",
     "vue": "^2.6.0 || >=3.0.0-rc.0"
   },
   "peerDependenciesMeta": {
@@ -44,13 +44,16 @@
       "optional": true
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "@monaco-editor/loader": "^1.3.2"
+  },
   "devDependencies": {
     "@designable/core": "1.0.0-beta.25",
-    "@formily/element-setters": "1.0.0-alpha.0",
     "@designable/formily-transformer": "1.0.0-beta.25",
     "@designable/shared": "1.0.0-beta.25",
     "@formily/element": "^2.0.0",
+    "@formily/element-designable": "1.0.0-alpha.0",
+    "@formily/element-setters": "1.0.0-alpha.0",
     "@formily/reactive": "^2.0.0",
     "@formily/reactive-vue": "^2.0.0",
     "@formily/shared": "^2.0.0",
@@ -59,6 +62,7 @@
     "@vue/babel-preset-jsx": "^1.2.4",
     "@vue/composition-api": "^1.4.0-beta.0",
     "babel-loader": "^8.2.3",
-    "element-ui": "^2.15.6"
+    "element-ui": "^2.15.6",
+    "monaco-editor": "^0.34.0"
   }
 }

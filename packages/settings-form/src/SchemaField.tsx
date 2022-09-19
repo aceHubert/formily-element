@@ -15,6 +15,7 @@ import {
 import * as ElementUI from '@formily/element'
 
 const SchemaFields = createSchemaField({
+  // @ts-ignore TODO: type error
   components: {
     CollapseItem,
     ColorInput,

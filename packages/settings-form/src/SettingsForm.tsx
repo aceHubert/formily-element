@@ -129,7 +129,7 @@ export const SettingsForm = defineComponent({
           return (
             <div class={cls(prefix)} key={sources.key}>
               <ElForm
-                key={uid()}
+                // key={uid()}
                 form={formRef.value}
                 labelWidth={110}
                 labelAlign="left"
@@ -138,11 +138,9 @@ export const SettingsForm = defineComponent({
                 tooltipLayout="text"
               >
                 <SchemaField
-                  props={{
-                    schema: sources.schema,
-                    components: props.components,
-                    scope: props.scope,
-                  }}
+                  schema={sources.schema}
+                  components={props.components}
+                  scope={props.scope}
                 />
               </ElForm>
             </div>
@@ -156,7 +154,7 @@ export const SettingsForm = defineComponent({
       }
 
       return (
-        <IconWidget.Provider props={{ tooltip: true }}>
+        <IconWidget.Provider tooltip>
           <div class={prefix + '-wrapper'}>
             {!sources.isEmpty && (
               <NodePathWidget workspaceId={currentWorkspaceId} />
